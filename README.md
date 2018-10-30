@@ -1,0 +1,1 @@
+# JWT-Sequelize-cli-example
