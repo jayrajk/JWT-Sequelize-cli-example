@@ -16,8 +16,8 @@ module.exports = {
 
     getAll(req, res, next) {
         return user.findAll({
-            where: {
-                isDeleted: 0
+            attributes:{
+                exclude: ['password','createdAt', 'updatedAt']
             }
         })
             .then(users => res.json(users))
@@ -29,6 +29,9 @@ module.exports = {
         return user.findOne({
             where: {
                 id: id,
+            },
+            attributes:{
+                exclude: ['password','createdAt', 'updatedAt']
             }
         })
             .then((uniqueUser) => {
@@ -43,6 +46,9 @@ module.exports = {
         return user.findOne({
             where: {
                 id: req.params.id,
+            },
+            attributes:{
+                exclude:['createdAt','updatedAt','password']
             }
         })
             .then((uniqueUser) => {
@@ -51,7 +57,7 @@ module.exports = {
             return Promise.reject(err);
         }
         return res.json(uniqueUser);
-    })
+        })
     },
 
     update(req, res, next) {
@@ -67,14 +73,14 @@ module.exports = {
             })
             .then((result) => {
             res.json('Updated Successfully');
-    })
-    .catch(() => {
-            return Promise.reject(new APIError('User not found', httpStatus.NOT_FOUND, true));
-    })
+            })
+            .catch(() => {
+                    return Promise.reject(new APIError('User not found', httpStatus.NOT_FOUND, true));
+            })
     },
 
     deleteUser(req, res, next) {
-        return user.update({
+        return user.destroy({
             where: {
                 id: req.params.id,
             }

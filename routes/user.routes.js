@@ -16,6 +16,11 @@ const paramValidation = {
             id: Joi.string().required(),
         },
     },
+    getUser:{
+        params: {
+            id: Joi.number().integer().required(),
+        },
+    }
 };
 
 router.route('/')
@@ -28,8 +33,8 @@ router.route('/profile')
 
 router.route('/:id')
 // GET /api/users/:userId. all the users.
-    .get(validate(paramValidation.updateUser), userController.getById)
+    .get(validate(paramValidation.getUser),userController.getById)
     .put(validate(paramValidation.updateUser), userController.update)
-    .delete(validate(paramValidation.updateUser), userController.deleteUser);
+    .delete(validate(paramValidation.getUser), userController.deleteUser);
 
 module.exports = router;

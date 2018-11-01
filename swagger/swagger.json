@@ -12,7 +12,7 @@
   "host":"localhost:4000",
   "tags":[{
     "name":"User",
-    "descriptions":"API for user"
+    "descriptions":"APIs for user"
   }],
   "schemes":[
     "http"
@@ -83,6 +83,102 @@
           }
         }
       }
+    },
+    "/api/users/":{
+      "get":{
+        "tags":[
+          "List of all Users"
+        ],
+        "summary":"List all User of System",
+        "descriptions":"Get all Users",
+        "parameters":[
+          {
+            "name":"Authorization",
+            "in":"header",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "descriptions":"success list"
+          }
+        }
+      }
+    },
+    "/api/users/profile":{
+      "get":{
+        "tags":[
+          "User Profile"
+        ],
+        "summary":"User login profile",
+        "descriptions":"User Profile",
+        "parameters":[
+          {
+            "name":"Authorization",
+            "in":"header",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "descriptions":"Get profile successfully"
+          }
+        }
+      }
+    },
+    "/api/users/{id}":{
+      "parameters":[
+        {
+          "$ref":"#/parameters/id"
+        },
+        {
+          "$ref":"#/parameters/Authorization"
+        }
+      ],
+      "get":{
+        "tags":[
+          "Users"
+        ],
+        "summary":"Get users By id",
+        "responses":{
+          "200":{
+            "descriptions":"Ok"
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "Users"
+        ],
+        "summary":"Update the user by id",
+        "parameters":[
+          {
+            "name":"user",
+            "in":"body",
+            "schema":{
+              "$ref":"#/definations/updateUser"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "descriptions":"User updated."
+          }
+        }
+      },
+      "delete":{
+        "tags":[
+          "Users"
+        ],
+        "summary":"Delete users By id",
+        "responses":{
+          "200":{
+            "descriptions":"Ok"
+          }
+        }
+      }
     }
   },
   "definations":{
@@ -122,6 +218,39 @@
         "password":{
           "type":"string"
         }
+      }
+    },
+    "updateUser":{
+      "properties":{
+        "name":{
+          "type":"string"
+        },
+        "email":{
+          "type":"string"
+        },
+        "phone":{
+          "type":"string"
+        }
+      }
+    }
+  },
+  "parameters":{
+    "Authorization":{
+      "name":"Authorization",
+      "in":"header",
+      "required":true,
+      "descriptions":"An Authorization token of the user",
+      "schema":{
+        "type":"string"
+      }
+    },
+    "id":{
+      "name":"id",
+      "in":"path",
+      "required":true,
+      "descriptions":"Id of the user that you want to get detail",
+      "schema":{
+        "type":"integer"
       }
     }
   }
