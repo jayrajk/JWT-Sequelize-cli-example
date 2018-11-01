@@ -1,0 +1,128 @@
+{
+  "swagger":"2.0",
+  "info":{
+    "version":"1.0.1",
+    "title":"Node APIs",
+    "descriptions":"Node backend rest APIs",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host":"localhost:4000",
+  "tags":[{
+    "name":"User",
+    "descriptions":"API for user"
+  }],
+  "schemes":[
+    "http"
+  ],
+  "consumes":[
+    "application/json"
+  ],
+  "produces":[
+    "application/json"
+  ],
+  "paths":{
+    "/api/auth/register":{
+      "post":{
+        "tags":[
+          "User registration APIs"
+        ],
+        "summary":"Create a new user in System",
+        "descriptions":"Create a new User",
+        "parameters":[
+          {
+            "name":"User Registration ",
+            "in":"body",
+            "descriptions":"User want to register",
+            "schema":{
+              "$ref":"#/definations/register"
+            }
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses":{
+          "200":{
+            "descriptions":"New user is created",
+            "schema":{
+              "$ref":"#/definations/register"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login":{
+      "post":{
+        "tags":[
+          "User Authentication APIs"
+        ],
+        "summary":"User Login into System",
+        "descriptions":"User Login",
+        "parameters":[
+          {
+            "name":"User Login",
+            "in":"body",
+            "descriptions":"User want to login into System",
+            "schema":{
+              "$ref":"#/definations/login"
+            }
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses":{
+          "200":{
+            "descriptions":"User Login",
+            "schema":{
+              "$ref":"#/definations/login"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definations":{
+    "register":{
+      "required":[
+        "email",
+        "name",
+        "password"
+      ],
+      "properties":{
+        "name":{
+          "type":"string"
+        },
+        "email":{
+          "type":"string",
+          "uniqueItems":true
+        },
+        "password":{
+          "type":"string"
+        },
+        "phone":{
+          "type":"string",
+          "minimum":10,
+          "maximum":10
+        }
+      }
+    },
+    "login":{
+      "required":[
+        "email",
+        "password"
+      ],
+      "properties":{
+        "email":{
+          "type":"string"
+        },
+        "password":{
+          "type":"string"
+        }
+      }
+    }
+  }
+}

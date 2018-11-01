@@ -27,6 +27,7 @@
     "mysql2": "^1.6.1",
     "nvm": "0.0.4",
     "sequelize": "^4.41.0",
-    "sequelize-cli": "^5.2.0"
+    "sequelize-cli": "^5.2.0",
+    "swagger-ui-express": "^4.0.1"
   }
 }
