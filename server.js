@@ -16,6 +16,7 @@ const server = http.createServer(app);
 if (config.env === 'development') {
     app.use(logger('dev'));
 }
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
@@ -51,3 +52,5 @@ app.use((err, req, res, next) => {
 );
 
 server.listen(4000,()=> console.log('Server started on 4000 port'));
+
+module.exports = server;

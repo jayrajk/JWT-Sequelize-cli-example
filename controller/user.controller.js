@@ -11,7 +11,7 @@ module.exports = {
             where: {
                 email:email
             },
-        });
+        })
     },
 
     getAll(req, res, next) {
@@ -20,8 +20,8 @@ module.exports = {
                 exclude: ['password','createdAt', 'updatedAt']
             }
         })
-            .then(users => res.json(users))
-    .catch(e => next(e));
+        .then(users => res.json(users))
+        .catch(e => next(e));
     },
 
     getProfile(req, res, next) {
@@ -34,14 +34,14 @@ module.exports = {
                 exclude: ['password','createdAt', 'updatedAt']
             }
         })
-            .then((uniqueUser) => {
+        .then((uniqueUser) => {
             if (uniqueUser) {
                 return res.json(uniqueUser);
             }
-            const err = new APIError('No such user exists!', httpStatus.NOT_FOUND, true);
-        return Promise.reject(err);
-    })
+            return res.status(httpStatus.NOT_FOUND).send({message:'No such user exists!'})
+        })
     },
+
     getById(req, res, next) {
         return user.findOne({
             where: {
@@ -51,12 +51,11 @@ module.exports = {
                 exclude:['createdAt','updatedAt','password']
             }
         })
-            .then((uniqueUser) => {
+        .then((uniqueUser) => {
             if (!uniqueUser) {
-            const err = new APIError('No such user exists!', httpStatus.NOT_FOUND, true);
-            return Promise.reject(err);
-        }
-        return res.json(uniqueUser);
+            return res.status(httpStatus.NOT_FOUND).send({message:'No such user exists!'})
+            }
+            return res.json(uniqueUser);
         })
     },
 
@@ -70,13 +69,17 @@ module.exports = {
                 where: {
                     id: req.params.id
                 }
-            })
-            .then((result) => {
-            res.json('Updated Successfully');
-            })
-            .catch(() => {
-                    return Promise.reject(new APIError('User not found', httpStatus.NOT_FOUND, true));
-            })
+        })
+        .then((result) => {
+            if(result) {
+                return res.status(200).send({message: "Updated Successfully", data: result});
+            }else{
+                return res.status(httpStatus.BAD_REQUEST).send('Error while updating');
+            }
+        })
+        .catch(() => {
+            return res.status(httpStatus.NOT_FOUND).send('User not found');
+        })
     },
 
     deleteUser(req, res, next) {
@@ -85,12 +88,12 @@ module.exports = {
                 id: req.params.id,
             }
         })
-            .then((result) => {
-            res.send('Record Deleted')
-    })
-    .catch(() => {
-            return Promise.reject(new APIError('User not found', httpStatus.NOT_FOUND, true));
-    })
+        .then((result) => {
+            return res.status(200).send({message:'User Deleted'});
+        })
+        .catch(() => {
+            return res.status(httpStatus.NOT_FOUND).send('User not found');
+        })
     },
 
     generatePassword(password) {
@@ -104,12 +107,12 @@ module.exports = {
             phone: userdata.phone,
             password: userdata.password,
         })
-            .then((savedUser) => {
-            return savedUser;
-    })
-    .catch((error) => {
-            return Promise.reject(new APIError('Something wrong in Registration', httpStatus.BAD_REQUEST, true));
-    })
+        .then((savedUser) => {
+                return savedUser;
+        })
+        .catch((error) => {
+            return res.status(httpStatus.BAD_REQUEST).send('Something wrong in Registration');
+        })
     }
 
 }

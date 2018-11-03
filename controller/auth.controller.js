@@ -48,9 +48,19 @@ module.exports = {
                 const token = jwt.sign(savedUser.safeModel(), config.jwtSecret, {
                     expiresIn: config.jwtExpiresIn,
                 });
-                return res.json({
-                    token: token
-                });
+                if(!savedUser.id){
+                    return res.status(200).send({
+                        message: savedUser.message,
+                    });
+                }else {
+                    return res.status(200).send({
+                        token: token,
+                        id: savedUser.id,
+                        name: savedUser.name,
+                        email: savedUser.email,
+                        phone: savedUser.phone
+                    });
+                }
             })
             .catch(e => next(e));
     }
