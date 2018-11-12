@@ -9,8 +9,8 @@ const paramValidation = {
     updateUser: {
         body: {
             name: Joi.string(),
-            email: Joi.string().email().required(),
-            phone: Joi.string()
+            email: Joi.string().email(),
+            phone: Joi.number().integer().min(6000000000).max(9999999999)
         },
         params: {
             id: Joi.string().required(),

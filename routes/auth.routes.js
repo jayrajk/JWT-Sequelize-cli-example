@@ -17,7 +17,7 @@ const paramValidation = {
             name: Joi.string().required(),
             email: Joi.string().email().required(),
             password: Joi.string().required(),
-            phone: Joi.string(),
+            phone: Joi.number().integer().min(6000000000).max(9999999999).required(),
         }
     }
 };

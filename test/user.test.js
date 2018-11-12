@@ -16,7 +16,7 @@ describe('#User APIs', () => {
     let user = {
         name: faker.name.firstName(),
         email: faker.internet.email(),
-        phone: "8866447433",
+        phone: 8866447433,
         password: faker.internet.password(),
     };
     describe('#POST /api/auth/register', () => {
@@ -48,7 +48,7 @@ describe('#User APIs', () => {
                 .then((res)=>{
                     expect(res.body.email).to.equal(user.email);
                     expect(res.body.name).to.equal(user.name);
-                    expect(res.body.phone.toString()).to.equal(user.phone);
+                    expect(res.body.phone).to.equal(user.phone);
                     expect(res.body.password).to.equal(undefined);//password should be removed
                     done();
                 }).catch(done)
